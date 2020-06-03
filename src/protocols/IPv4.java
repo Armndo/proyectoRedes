@@ -37,8 +37,8 @@ public class IPv4 {
         this.TTL = Integer.parseInt(raw[22], 16);
         this.protocol = tool.protocolType(raw[23]);
         this.checksum = raw[24] + raw[25];
-        this.source = tool.ipConverter(new String[]{raw[26], raw[27], raw[28], raw[29]});
-        this.destination = tool.ipConverter(new String[]{raw[30], raw[31], raw[32], raw[33]});
+        this.source = tool.ipConverter(raw, 26);
+        this.destination = tool.ipConverter(raw, 30);
     }
 
     public int getVersion() {

@@ -28,7 +28,8 @@ public class Example2
   private static final int PACKET_COUNT = INFINITE; 
 
   // BPF filter for capturing any packet
-  private static final String FILTER = "(ip or ip6) and udp";
+  //"(ip or ip6) and udp";
+  private static final String FILTER = "icmp";
 
   private PacketCapture m_pcap;
   private String m_device;
@@ -63,69 +64,56 @@ public class Example2
         return device = device.substring(0, loc+1);
     }
 
-  public static void main(String[] args) {
-      //System.out.println(System.getProperty("java.library.path"));
-    try {
-      Example2 example = new Example2();
-    } catch(Exception e) {
-      e.printStackTrace();
-      System.exit(1);
-    }
-  }
+//  public static void main(String[] args) {
+//      //System.out.println(System.getProperty("java.library.path"));
+//    try {
+//      Example2 example = new Example2();
+//    } catch(Exception e) {
+//      e.printStackTrace();
+//      System.exit(1);
+//    }
+//  }
 }
 
 
-class RawPacketHandler implements RawPacketListener 
-{
-  private static int m_counter = 0;
-
-  public void rawPacketArrived(RawPacket data) {
-    //m_counter++;
-    //System.out.println("Packet " + m_counter + "\n" + data + "\n");
-      //System.out.println(data.getTimeval());
-      //System.out.println(HexHelper.toString(data.getData()));
-      //System.out.println(data);
-      //System.out.println(data);
-    String raw = HexHelper.toString(data.getData()).toUpperCase();
-    System.out.println(raw + "\n");
-    String arr[] = raw.split(" ");
-    Ethernet eth = new Ethernet(arr);
-    Object ip = new Object();
-    Object udp = new Object();
-    //      IPv4 ip = new IPv4(arr);
-    //      UDP udp = new UDP(arr);
-    System.out.println(eth);
-    if(eth.isValid()) {
-        if(eth.getType().equals("IPv4")) {
-            ip = new IPv4(arr);
-        } else if(eth.getType().equals("IPv6")) {
-            ip = new IPv6(arr);
-        }
-    }
-    System.out.println(ip);
-    if((ip instanceof IPv4 && ((IPv4)ip).getProtocol().equals("UDP")) || (ip instanceof IPv6 && ((IPv6)ip).getNextHeader().equals("UDP"))) {
-        udp = new UDP(arr, ip);
-        System.out.println(udp);
-    }
-//      if(eth.isIsValid() && eth.getType().equals("ipv4")) {
-//        if(ip.getProtocol().equals("UDP")) {
+//class RawPacketHandler implements RawPacketListener {
+//  private static int m_counter = 0;
+//
+//    public void rawPacketArrived(RawPacket data) {
+//        //m_counter++;
+//        String raw = HexHelper.toString(data.getData()).toUpperCase();
+//        System.out.println(raw + "\n");
+//        String arr[] = raw.split(" ");
+//        Ethernet eth = new Ethernet(arr);
+//        Object ip = new Object();
+//        Object udp = new Object();
+//        System.out.println(eth);
+//        if(eth.isValid()) {
+//            if(eth.getType().equals("IPv4")) {
+//                ip = new IPv4(arr);
+//            } else if(eth.getType().equals("IPv6")) {
+//                ip = new IPv6(arr);
+//            }
+//        }
+//        System.out.println(ip);
+//        if((ip instanceof IPv4 && ((IPv4)ip).getProtocol().equals("UDP")) || (ip instanceof IPv6 && ((IPv6)ip).getNextHeader().equals("UDP"))) {
+//            udp = new UDP(arr, ip);
 //            System.out.println(udp);
 //        }
-//      }
-  }
-}
-
-class PacketHandler implements PacketListener 
-{
-    private static int m_counter = 0;
-  public void packetArrived(Packet packet) {
-    m_counter++;
-    //String type = packet.getClass().getName();
-      System.out.println(packet);
-      System.out.println(packet.getClass().getName());
-      System.out.println("");
-      //System.out.println(HexHelper.toString(packet.getData())+ "\n");
-    //System.out.println("Packet(" + m_counter + ") is of type " + type + ".");
-    //System.out.println("Packet(" + m_counter + ") time = " + packet.getTimeval());
-  }
-}
+//    }
+//}
+//
+//class PacketHandler implements PacketListener 
+//{
+//    private static int m_counter = 0;
+//  public void packetArrived(Packet packet) {
+//    m_counter++;
+//    //String type = packet.getClass().getName();
+//      System.out.println(packet);
+//      System.out.println(packet.getClass().getName());
+//      System.out.println("");
+//      //System.out.println(HexHelper.toString(packet.getData())+ "\n");
+//    //System.out.println("Packet(" + m_counter + ") is of type " + type + ".");
+//    //System.out.println("Packet(" + m_counter + ") time = " + packet.getTimeval());
+//  }
+//}

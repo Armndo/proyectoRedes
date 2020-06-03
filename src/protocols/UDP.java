@@ -8,8 +8,8 @@ import utils.Tool;
  */
 public class UDP {
     
-    private String source;
-    private String destination;
+    private int source;
+    private int destination;
     private int length;
     private String checksum;
     private String data;
@@ -27,19 +27,19 @@ public class UDP {
         }
     }
 
-    public String getSource() {
+    public int getSource() {
         return source;
     }
 
-    public void setSource(String source) {
+    public void setSource(int source) {
         this.source = source;
     }
 
-    public String getDestination() {
+    public int getDestination() {
         return destination;
     }
 
-    public void setDestination(String destination) {
+    public void setDestination(int destination) {
         this.destination = destination;
     }
 

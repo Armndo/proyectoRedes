@@ -20,8 +20,8 @@ public class Ethernet {
 
     public Ethernet(String raw[]) {
         Tool tool = new Tool();
-        this.source = tool.macConverter(new String[]{raw[0], raw[1], raw[2], raw[3], raw[4], raw[5]});
-        this.destination = tool.macConverter(new String[]{raw[6], raw[7], raw[8], raw[9], raw[10], raw[11]});
+        this.source = tool.macConverter(raw, 0);
+        this.destination = tool.macConverter(raw, 6);
         this.type = raw[12] + raw[13];
         this.type = this.type.equals("0800") ? "IPv4" : this.type.equals("86DD") ? "IPv6" : null;
         this.valid = this.type != null;

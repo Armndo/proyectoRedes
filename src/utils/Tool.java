@@ -11,8 +11,8 @@ package utils;
  */
 public class Tool {
     
-    public String hex2dec(String hex) {
-        return "" + Integer.parseInt(hex, 16);
+    public int hex2dec(String hex) {
+        return Integer.parseInt(hex, 16);
     }
     
     public int hex2dec(String hex[]) {
@@ -109,49 +109,33 @@ public class Tool {
         return aux;
     }
     
-    public String macConverter(String mac[]) {
+    public String macConverter(String raw[], int index) {
         String addr = "";
-        for(int i = 0; i < mac.length; i++) {
-            addr += mac[i];
-            if(i != mac.length-1)
-                addr += ":";
+        for(int i = index; i < index+6; i++) {
+            addr += raw[i] + ":";
         }
-        return addr;
+        return addr.substring(0, addr.length()-1);
     }
     
-    public String ipConverter(String ip[]) {
+    public String ipConverter(String raw[], int index) {
         String addr = "";
-        for(int i = 0; i < ip.length; i++) {
-            addr += Integer.parseInt(ip[i], 16);
-            if(i != ip.length-1)
-                addr += ".";
+        for(int i = index; i < index+4; i++) {
+            addr += Integer.parseInt(raw[i], 16) + ".";
         }
-        return addr;
+        return addr.substring(0, addr.length()-1);
     }
     
     public String ip6Converter(String raw[], int index) {
         String addr = "";
         String aux = "";
-        String aux2 = "";
-        for(int i = index, j = 1, k = 0; i < index+16; i++, j++) {
-            boolean flag = false;
-            aux2 += raw[i];
+        for(int i = index, j = 1; i < index+16; i++, j++) {
+            aux += raw[i];
             if((j & 1) == 0) {
-                addr += aux2 + ":";
-                aux2 = "";
+                addr += aux + ":";
+                aux = "";
             }
         }
         return addr.substring(0, addr.length()-1);
-    }
-    
-    public String ip6Converter(String ip[]) {
-        String addr = "";
-        for(int i = 0; i < ip.length; i++) {
-            addr += ip[i];
-            if((i+1 & 1) == 0 && i != ip.length-1 )
-                addr += ":";
-        }
-        return addr;
     }
     
     public String ipType(String type) {
@@ -162,34 +146,34 @@ public class Tool {
         String str = "";
         switch(protocol) {
             case "00":
-                str = "OPOPT";
+                str = "HOPOPT";
                 break;
             case "01":
-                str = "CMP";
+                str = "ICMP";
                 break;
             case "02":
-                str = "GMP";
+                str = "IGMP";
                 break;
             case "03":
-                str = "GP";
+                str = "GGP";
                 break;
             case "04":
-                str = "P-in-IP";
+                str = "IP-in-IP";
                 break;
             case "05":
-                str = "T";
+                str = "ST";
                 break;
             case "06":
-                str = "CP";
+                str = "TCP";
                 break;
             case "07":
-                str = "BT";
+                str = "CBT";
                 break;
             case "08":
-                str = "GP";
+                str = "EGP";
                 break;
             case "09":
-                str = "GP";
+                str = "IGP";
                 break;
             case "0A":
                 str = "BBN-RCC-MON";
@@ -595,6 +579,11 @@ public class Tool {
                 break;
         }
         return str;
+    }
+    
+    public String filterDevice(String device) {
+        int loc = device.lastIndexOf("}");
+        return device = device.substring(0, loc+1);
     }
     
 }

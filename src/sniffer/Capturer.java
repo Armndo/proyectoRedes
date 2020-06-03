@@ -26,7 +26,8 @@ public class Capturer {
     
     private static final int INFINITE = -1;
     private static final int PACKET_COUNT = INFINITE;
-    private static final String FILTER = "(ip or ip6) and (tcp or udp)";
+    private static String alv = "(ip or ip6) and (tcp or udp)";
+    private static final String FILTER = "icmp6";
     private PacketCapture m_pcap;
     private String m_device;
 
@@ -37,44 +38,11 @@ public class Capturer {
     //      for (String s : m_pcap.lookupDevices()) {
     //          System.out.println(s);
     //      }
-        this.m_pcap.open(m_device, 65536, true, 1000);
+        this.m_pcap.open(m_device, 65536, false, 1000);
         this.m_pcap.setFilter(FILTER, true);
         this.m_pcap.addRawPacketListener(new RawPacketHandler());
+        //this.m_pcap.addPacketListener(new PacketHandler());
         this.m_pcap.capture(PACKET_COUNT);
-    }
-}
-
-
-class RawPacketHandler implements RawPacketListener {
-    
-    private static int m_counter = 0;
-    
-    public void rawPacketArrived(RawPacket data) {
-        //m_counter++;
-        String raw = HexHelper.toString(data.getData()).toUpperCase();
-        System.out.println(raw + "\n");
-        String arr[] = raw.split(" ");
-        Ethernet eth = new Ethernet(arr);
-        Object ip = new Object();
-        Object udp = new Object();
-        Object tcp = new Object();
-        System.out.println(eth);
-        if(eth.isValid()) {
-            if(eth.getType().equals("IPv4")) {
-                ip = new IPv4(arr);
-            } else if(eth.getType().equals("IPv6")) {
-                ip = new IPv6(arr);
-            }
-        }
-        System.out.println(ip);
-        if((ip instanceof IPv4 && ((IPv4)ip).getProtocol().equals("UDP")) || (ip instanceof IPv6 && ((IPv6)ip).getNextHeader().equals("UDP"))) {
-            udp = new UDP(arr, ip);
-            System.out.println(udp);
-        }
-        if(ip instanceof IPv4 && ((IPv4)ip).getProtocol().equals("TCP")) {
-            tcp = new TCP(arr);
-            System.out.println(tcp);
-        }
     }
 }
 

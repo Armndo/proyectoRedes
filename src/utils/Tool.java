@@ -581,6 +581,52 @@ public class Tool {
         return str;
     }
     
+    public String icmpType(int type) {
+        String str = "";
+        switch(type) {
+            case 0:
+                str = "Ping Reply";
+                break;
+            case 3:
+                str = "Destination Unreachable";
+                break;
+            case 5:
+                str = "Redirect Message";
+                break;
+            case 8:
+                str = "Ping Request";
+                break;
+            case 9:
+                str = "Router Advertisement";
+                break;
+            case 10:
+                str = "Router Solicitation";
+                break;
+            case 11:
+                str = "RouterTime Exceeded";
+                break;
+            case 12:
+                str = "Bad IP header";
+                break;
+            case 13:
+                str = "Timestamp";
+                break;
+            case 14:
+                str = "Timestamp reply";
+                break;
+            case 42:
+                str = "Extended ping request";
+                break;
+            case 43:
+                str = "Extended ping reply";
+                break;
+            default:
+                str = "Unkwown";
+                break;
+        }
+        return str;
+    }
+    
     public String filterDevice(String device) {
         int loc = device.lastIndexOf("}");
         return device = device.substring(0, loc+1);

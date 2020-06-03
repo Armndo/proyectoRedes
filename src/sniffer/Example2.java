@@ -28,7 +28,7 @@ public class Example2
   private static final int PACKET_COUNT = INFINITE; 
 
   // BPF filter for capturing any packet
-  private static final String FILTER = "ip6";
+  private static final String FILTER = "(ip or ip6) and udp";
 
   private PacketCapture m_pcap;
   private String m_device;
@@ -86,16 +86,28 @@ class RawPacketHandler implements RawPacketListener
       //System.out.println(HexHelper.toString(data.getData()));
       //System.out.println(data);
       //System.out.println(data);
-      String raw = HexHelper.toString(data.getData()).toUpperCase();
-      System.out.println(raw + "\n");
-      String arr[] = raw.split(" ");
-      Ethernet eth = new Ethernet(arr);
-//      IPv4 ip = new IPv4(arr);
-      IPv6 ip = new IPv6(arr);
-//      UDP udp = new UDP(arr);
-      System.out.println(eth);
+    String raw = HexHelper.toString(data.getData()).toUpperCase();
+    System.out.println(raw + "\n");
+    String arr[] = raw.split(" ");
+    Ethernet eth = new Ethernet(arr);
+    Object ip = new Object();
+    Object udp = new Object();
+    //      IPv4 ip = new IPv4(arr);
+    //      UDP udp = new UDP(arr);
+    System.out.println(eth);
+    if(eth.isValid()) {
+        if(eth.getType().equals("IPv4")) {
+            ip = new IPv4(arr);
+        } else if(eth.getType().equals("IPv6")) {
+            ip = new IPv6(arr);
+        }
+    }
+    System.out.println(ip);
+    if((ip instanceof IPv4 && ((IPv4)ip).getProtocol().equals("UDP")) || (ip instanceof IPv6 && ((IPv6)ip).getNextHeader().equals("UDP"))) {
+        udp = new UDP(arr, ip);
+        System.out.println(udp);
+    }
 //      if(eth.isIsValid() && eth.getType().equals("ipv4")) {
-        System.out.println(ip);
 //        if(ip.getProtocol().equals("UDP")) {
 //            System.out.println(udp);
 //        }

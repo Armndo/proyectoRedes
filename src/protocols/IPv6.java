@@ -20,7 +20,7 @@ public class IPv6 {
     public IPv6(String raw[]) {
         Tool tool = new Tool();
         this.version = Integer.parseInt(raw[14].substring(0, 1), 16);
-        String aux[] = tool.hex2bin(new String[]{raw[14].substring(1, 2), raw[15], raw[16], raw[17]}, 4);
+        String aux[] = tool.hex2bin(new String[]{raw[14].substring(1, 2), raw[15], raw[16], raw[17]}, 8);
         this.trafficClass = aux[0];
         this.flowLabel = aux[1];
         this.length = tool.hex2dec(new String[]{raw[18], raw[19]});

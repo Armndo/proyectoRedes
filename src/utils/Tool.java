@@ -137,22 +137,8 @@ public class Tool {
             boolean flag = false;
             aux2 += raw[i];
             if((j & 1) == 0) {
-                System.out.print(aux2 + " ");
-                int c = 0;
-                for(int z = 0; z < aux2.length(); z++, c++) {
-                    if(aux2.charAt(z) != '0')
-                        break ;
-                }
-                aux = aux2.substring(c, 4);
-                flag = aux.length() == 0;
-                System.out.println(flag);
-                addr += aux;
+                addr += aux2 + ":";
                 aux2 = "";
-                if(aux.length() > 0) {
-                   addr += ":"; 
-                }
-                   addr += flag ? ":" : "";
-                   flag = !flag;
             }
         }
         return addr.substring(0, addr.length()-1);

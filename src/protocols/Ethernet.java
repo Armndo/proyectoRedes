@@ -16,15 +16,15 @@ public class Ethernet {
     private String source;
     private String destination;
     private String type;
-    private boolean isValid;
+    private boolean valid;
 
     public Ethernet(String raw[]) {
         Tool tool = new Tool();
         this.source = tool.macConverter(new String[]{raw[0], raw[1], raw[2], raw[3], raw[4], raw[5]});
         this.destination = tool.macConverter(new String[]{raw[6], raw[7], raw[8], raw[9], raw[10], raw[11]});
         this.type = raw[12] + raw[13];
-        this.type = this.type.equals("0800") ? "ipv4" : this.type.equals("86DD") ? "ipv6" : null;
-        this.isValid = this.type != null;
+        this.type = this.type.equals("0800") ? "IPv4" : this.type.equals("86DD") ? "IPv6" : null;
+        this.valid = this.type != null;
     }
 
     public String getSource() {
@@ -51,12 +51,12 @@ public class Ethernet {
         this.type = type;
     }
 
-    public boolean isIsValid() {
-        return isValid;
+    public boolean isValid() {
+        return valid;
     }
 
-    public void setIsValid(boolean isValid) {
-        this.isValid = isValid;
+    public void setValid(boolean valid) {
+        this.valid = valid;
     }
     
     @Override
@@ -66,7 +66,7 @@ public class Ethernet {
                 + "\tsource: " + this.source + "\n"
                 + "\tdestination: " + this.destination + "\n"
                 + "\ttype: " + this.type + "\n"
-                + "\tisValid: " + this.isValid + "\n"
+                + "\tvalid: " + this.valid + "\n"
             + "}\n";
     }
         

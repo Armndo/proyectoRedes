@@ -14,9 +14,8 @@ public class UDP {
     private String checksum;
     private String data;
 
-    public UDP(String raw[]) {
-        int offset = Integer.parseInt(raw[14].substring(0, 1), 16);
-        offset = offset == 4 ? 0 : offset == 6 ? 20 : 0;
+    public UDP(String raw[], Object ip) {
+        int offset = ip instanceof IPv4 ? 0 : ip instanceof IPv6 ? 20 : 0;
         Tool tool = new Tool();
         this.source = tool.hex2dec(raw[34+offset] + raw[35+offset]);
         this.destination = tool.hex2dec(raw[36+offset] + raw[37+offset]);

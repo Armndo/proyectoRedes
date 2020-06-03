@@ -14,6 +14,7 @@ import net.sourceforge.jpcap.util.HexHelper;
 import protocols.Ethernet;
 import protocols.IPv4;
 import protocols.IPv6;
+import protocols.TCP;
 import protocols.UDP;
 import utils.Tool;
 
@@ -25,7 +26,7 @@ public class Capturer {
     
     private static final int INFINITE = -1;
     private static final int PACKET_COUNT = INFINITE;
-    private static final String FILTER = "tcp";
+    private static final String FILTER = "(ip or ip6) and (tcp or udp)";
     private PacketCapture m_pcap;
     private String m_device;
 
@@ -56,6 +57,7 @@ class RawPacketHandler implements RawPacketListener {
         Ethernet eth = new Ethernet(arr);
         Object ip = new Object();
         Object udp = new Object();
+        Object tcp = new Object();
         System.out.println(eth);
         if(eth.isValid()) {
             if(eth.getType().equals("IPv4")) {
@@ -68,6 +70,10 @@ class RawPacketHandler implements RawPacketListener {
         if((ip instanceof IPv4 && ((IPv4)ip).getProtocol().equals("UDP")) || (ip instanceof IPv6 && ((IPv6)ip).getNextHeader().equals("UDP"))) {
             udp = new UDP(arr, ip);
             System.out.println(udp);
+        }
+        if(ip instanceof IPv4 && ((IPv4)ip).getProtocol().equals("TCP")) {
+            tcp = new TCP(arr);
+            System.out.println(tcp);
         }
     }
 }

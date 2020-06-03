@@ -5,6 +5,8 @@
  */
 package protocols;
 
+import utils.Tool;
+
 /**
  *
  * @author Armando
@@ -15,7 +17,49 @@ public class TCP {
     private int destination;
     private String SEQ;
     private String ACK;
-    private int offset;
+    private int headerLength;
+    private String reserved;
+    private String flags;
+    private int size;
+    private String checksum;
+    private int urgent;
+    private String data;
+
+    public TCP(String raw[]) {
+        Tool tool = new Tool();
+        this.source = tool.hex2dec(new String[]{raw[34], raw[35]});
+        this.destination = tool.hex2dec(new String[]{raw[36], raw[37]});
+        this.SEQ = raw[38] + raw[39] + raw[40] + raw[41];
+        this.ACK = raw[42] + raw[43] + raw[44] + raw[45];
+        this.headerLength = tool.hex2dec(raw[46].substring(0, 1))*4;
+        String aux[] = tool.hex2bin(raw[46].substring(1, 2), 3);
+        this.reserved = aux[0];
+        this.flags = aux[1] + tool.hex2bin(raw[47]);
+        this.size = tool.hex2dec(new String[]{raw[48], raw[49]});
+        this.checksum = raw[50] + raw[51];
+        this.urgent = tool.hex2dec(new String[]{raw[52], raw[53]});
+        this.data = "";
+        for(int i = 54; i < raw.length; i++) {
+            this.data += raw[i] + " ";
+        }
+    }
     
+    @Override
+    public String toString() {
+        return ""
+            + "TCP {\n"
+                + "\tsource: " + this.source + "\n"
+                + "\tdestination: " + this.destination + "\n"
+                + "\tSEQ: " + this.SEQ + "\n"
+                + "\tACK: " + this.ACK + "\n"
+                + "\theaderLength: " + this.headerLength + "\n"
+                + "\treserved: " + this.reserved + "\n"
+                + "\tflags: " + this.flags + "\n"
+                + "\tsize: " + this.size + "\n"
+                + "\tchecksum: " + this.checksum + "\n"
+                + "\turgent: " + this.urgent + "\n"
+                + "\tdata: " + this.data + "\n"
+            + "}\n";
+    }
     
 }

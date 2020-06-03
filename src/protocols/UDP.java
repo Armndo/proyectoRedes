@@ -22,7 +22,7 @@ public class UDP {
         this.length = Integer.parseInt(raw[38+offset] + raw[39+offset], 16);
         this.checksum = raw[40+offset] + raw[41+offset];
         this.data = "";
-        for(int i = 42+offset; i < this.length+42+offset-8; i++) {
+        for(int i = 42+offset; i < raw.length; i++) {
             this.data += raw[i] + " ";
         }
     }

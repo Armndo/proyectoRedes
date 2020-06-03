@@ -5,9 +5,13 @@
  */
 package sniffer;
 
+import protocols.Ethernet;
 import net.sourceforge.jpcap.capture.*;
 import net.sourceforge.jpcap.net.*;
 import net.sourceforge.jpcap.util.HexHelper;
+import protocols.IPv4;
+import protocols.IPv6;
+import protocols.UDP;
 
 
 /**
@@ -24,7 +28,7 @@ public class Example2
   private static final int PACKET_COUNT = INFINITE; 
 
   // BPF filter for capturing any packet
-  private static final String FILTER = "";
+  private static final String FILTER = "ip6";
 
   private PacketCapture m_pcap;
   private String m_device;
@@ -35,10 +39,10 @@ public class Example2
 
     // Step 2:  Check for devices 
     m_device = filterDevice(m_pcap.lookupDevices()[2]);
-      for (String s : m_pcap.lookupDevices()) {
-          System.out.println(s);
-      }
-    System.out.println("Device: " + m_device);
+//      for (String s : m_pcap.lookupDevices()) {
+//          System.out.println(s);
+//      }
+//    System.out.println("Device: " + m_device);
 
     // Step 3:  Open Device for Capturing (requires root)
     m_pcap.open(m_device, 65536, true, 1000);
@@ -82,8 +86,20 @@ class RawPacketHandler implements RawPacketListener
       //System.out.println(HexHelper.toString(data.getData()));
       //System.out.println(data);
       //System.out.println(data);
-      new PacketFilter((String)HexHelper.toString(data.getData()));
-      System.out.println("");
+      String raw = HexHelper.toString(data.getData()).toUpperCase();
+      System.out.println(raw + "\n");
+      String arr[] = raw.split(" ");
+      Ethernet eth = new Ethernet(arr);
+//      IPv4 ip = new IPv4(arr);
+      IPv6 ip = new IPv6(arr);
+//      UDP udp = new UDP(arr);
+      System.out.println(eth);
+//      if(eth.isIsValid() && eth.getType().equals("ipv4")) {
+        System.out.println(ip);
+//        if(ip.getProtocol().equals("UDP")) {
+//            System.out.println(udp);
+//        }
+//      }
   }
 }
 

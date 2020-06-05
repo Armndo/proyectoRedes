@@ -27,14 +27,14 @@ public class Capturer {
     private static final int INFINITE = -1;
     private static final int PACKET_COUNT = INFINITE;
     private static String alv = "(ip or ip6) and (tcp or udp)";
-    private static final String FILTER = "icmp6";
+    private static final String FILTER = "";
     private PacketCapture m_pcap;
     private String m_device;
 
     public Capturer() throws Exception {
         Tool tool = new Tool();
         this.m_pcap = new PacketCapture();
-        this.m_device = tool.filterDevice(this.m_pcap.lookupDevices()[5]);
+        this.m_device = tool.filterDevice(this.m_pcap.lookupDevices()[2]);
     //      for (String s : m_pcap.lookupDevices()) {
     //          System.out.println(s);
     //      }

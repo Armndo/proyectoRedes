@@ -43,6 +43,94 @@ public class TCP {
             this.data += raw[i] + " ";
         }
     }
+
+    public int getSource() {
+        return source;
+    }
+
+    public void setSource(int source) {
+        this.source = source;
+    }
+
+    public int getDestination() {
+        return destination;
+    }
+
+    public void setDestination(int destination) {
+        this.destination = destination;
+    }
+
+    public String getSEQ() {
+        return SEQ;
+    }
+
+    public void setSEQ(String SEQ) {
+        this.SEQ = SEQ;
+    }
+
+    public String getACK() {
+        return ACK;
+    }
+
+    public void setACK(String ACK) {
+        this.ACK = ACK;
+    }
+
+    public int getHeaderLength() {
+        return headerLength;
+    }
+
+    public void setHeaderLength(int headerLength) {
+        this.headerLength = headerLength;
+    }
+
+    public String getReserved() {
+        return reserved;
+    }
+
+    public void setReserved(String reserved) {
+        this.reserved = reserved;
+    }
+
+    public String getFlags() {
+        return flags;
+    }
+
+    public void setFlags(String flags) {
+        this.flags = flags;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public String getChecksum() {
+        return checksum;
+    }
+
+    public void setChecksum(String checksum) {
+        this.checksum = checksum;
+    }
+
+    public int getUrgent() {
+        return urgent;
+    }
+
+    public void setUrgent(int urgent) {
+        this.urgent = urgent;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
     
     @Override
     public String toString() {

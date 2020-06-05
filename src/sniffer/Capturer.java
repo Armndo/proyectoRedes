@@ -34,7 +34,7 @@ public class Capturer {
     public Capturer() throws Exception {
         Tool tool = new Tool();
         this.m_pcap = new PacketCapture();
-        this.m_device = tool.filterDevice(this.m_pcap.lookupDevices()[2]);
+        this.m_device = tool.filterDevice(this.m_pcap.lookupDevices()[5]);
     //      for (String s : m_pcap.lookupDevices()) {
     //          System.out.println(s);
     //      }

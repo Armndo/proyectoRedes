@@ -10,6 +10,7 @@ import net.sourceforge.jpcap.net.RawPacket;
 import net.sourceforge.jpcap.util.HexHelper;
 import protocols.Ethernet;
 import protocols.ICMP;
+import protocols.ICMP6;
 import protocols.IPv4;
 import protocols.IPv6;
 import protocols.TCP;
@@ -33,6 +34,7 @@ public class RawPacketHandler implements RawPacketListener {
         Object udp = new Object();
         Object tcp = new Object();
         Object icmp = new Object();
+        Object icmp6 = new Object();
         System.out.println(eth);
         if(eth.isValid()) {
             if(eth.getType().equals("IPv4")) {
@@ -53,6 +55,10 @@ public class RawPacketHandler implements RawPacketListener {
         if(ip instanceof IPv4 && ((IPv4)ip).getProtocol().equals("ICMP")) {
             icmp = new ICMP(arr);
             System.out.println(icmp);
+        }
+        if(ip instanceof IPv6 && ((IPv6)ip).getNextHeader().equals("IPv6-ICMP")){
+            icmp6 = new ICMP6(arr);
+            System.out.println(icmp6);
         }
     }
 }

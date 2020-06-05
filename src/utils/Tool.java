@@ -11,18 +11,18 @@ package utils;
  */
 public class Tool {
     
-    public int hex2dec(String hex) {
+    public static int hex2dec(String hex) {
         return Integer.parseInt(hex, 16);
     }
     
-    public int hex2dec(String hex[]) {
+    public static int hex2dec(String hex[]) {
         String dec = "";
         for(String string : hex)
             dec += string;
         return Integer.parseInt(dec, 16);
     }
     
-    public String hex2bin(String hex) {
+    public static String hex2bin(String hex) {
         String bin = "";
         char arr[] = hex.toCharArray();
         for (char c : arr) {
@@ -83,7 +83,7 @@ public class Tool {
         return bin;
     }
     
-    public String[] hex2bin(String hex, int index) {
+    public static String[] hex2bin(String hex, int index) {
         String arr[] = new String[2];
         String aux = hex2bin(hex);
         arr[0] = aux.substring(0, index);
@@ -91,7 +91,7 @@ public class Tool {
         return arr;
     }
     
-    public String[] hex2bin(String hex[], int index) {
+    public static String[] hex2bin(String hex[], int index) {
         String arr[] = new String[2];
         String aux = "";
         for (String string : hex) {
@@ -102,14 +102,14 @@ public class Tool {
         return arr;
     }
     
-    public String hex2bin(String hex[]) {
+    public static String hex2bin(String hex[]) {
         String aux = "";
         for (String string : hex)
             aux += hex2bin(string);
         return aux;
     }
     
-    public String macConverter(String raw[], int index) {
+    public static String macConverter(String raw[], int index) {
         String addr = "";
         for(int i = index; i < index+6; i++) {
             addr += raw[i] + ":";
@@ -117,7 +117,7 @@ public class Tool {
         return addr.substring(0, addr.length()-1);
     }
     
-    public String ipConverter(String raw[], int index) {
+    public static String ipConverter(String raw[], int index) {
         String addr = "";
         for(int i = index; i < index+4; i++) {
             addr += Integer.parseInt(raw[i], 16) + ".";
@@ -125,7 +125,7 @@ public class Tool {
         return addr.substring(0, addr.length()-1);
     }
     
-    public String ip6Converter(String raw[], int index) {
+    public static String ip6Converter(String raw[], int index) {
         String addr = "";
         String aux = "";
         for(int i = index, j = 1; i < index+16; i++, j++) {
@@ -138,11 +138,11 @@ public class Tool {
         return addr.substring(0, addr.length()-1);
     }
     
-    public String ipType(String type) {
+    public static String ipType(String type) {
         return type.equals("0800") ? "ipv4" : type.equals("86DD") ? "ipv6" : "error";
     }
     
-    public String protocolType(String protocol) {
+    public static String protocolType(String protocol) {
         String str = "";
         switch(protocol) {
             case "00":
@@ -581,7 +581,7 @@ public class Tool {
         return str;
     }
     
-    public String icmpType(int type) {
+    public static String icmpType(int type) {
         String str = "";
         switch(type) {
             case 0:
@@ -627,9 +627,114 @@ public class Tool {
         return str;
     }
     
-    public String filterDevice(String device) {
+    public static String[] ICMP6Type(int type, int code){
+        switch(type){
+            case 1:
+                switch (code){
+                    case 0:
+                        return new String[]{"Destination unreacable","no route to destination"};
+                    case 1:
+                        return new String[]{"Destination unreacable","communication with destination administratively prohibited"};
+                    case 2:
+                        return new String[]{"Destination unreacable","beyond scope of source address"};
+                    case 3:
+                        return new String[]{"Destination unreacable","address unreachable"};
+                    case 4:
+                        return new String[]{"Destination unreacable","port unreachable"};
+                    case 5:
+                        return new String[]{"Destination unreacable","source address failed ingress/egress policy"};
+                    case 6:
+                        return new String[]{"Destination unreacable","reject route to destination"};
+                    case 7:
+                        return new String[]{"Destination unreacable","Error in Source Routing Header"};
+                    default:
+                        return new String[]{"Destination unreacable","Invalid code"};
+                }
+            case 2:
+                return new String[]{"Packet too big",""};
+            case 3:
+                return code==0?new String[]{"Time exceeded","hop limit exceeded in transit"} : new String[]{"Time exceeded","fragment reassembly time exceeded"};
+            case 4:
+                return code==0?new String[]{"Parameter problem","erroneous header field encountered"} :  code==1?new String[]{"Parameter problem","unrecognized Next Header type encountered"}:new String[]{"Parameter problem","unrecognized IPv6 option encountered"};
+            case 100:
+                return new String[]{"Private experimentation",""};
+            case 101:
+                return new String[]{"Private experimentation",""};
+            case 127:
+                return new String[]{"Reserved for expansion of ICMPv6 error messages",""};
+            case 128:
+                return new String[]{"Echo Request",""};
+            case 129:
+                return new String[]{"Echo Reply",""};
+            case 130:
+                return new String[]{"Multicast Listener Query",""};
+            case 131:
+                return new String[]{"Multicast Listener Report",""};
+            case 132:
+                return new String[]{"Multicast Listener Done",""};
+            case 133:
+                return new String[]{"Router Solicitation",""};
+            case 134:
+                return new String[]{"Router Advertisemen",""};
+            case 135:
+                return new String[]{"Neighbor Solicitation",""};
+            case 136:
+                return new String[]{"Neighbor Advertisement",""};
+            case 137:
+                return new String[]{"Redirect Message",""};
+            case 138:
+                return code==0?new String[]{"Router Renumbering","Router Renumbering Command"} :  code==1?new String[]{"Router Renumbering","Router Renumbering Result"}:new String[]{"Router Renumbering","Sequence Number Reset"};
+            case 139:
+                return code==0? new String[]{"ICMP Node Information Query","The Data field contains an IPv6 address which is the Subject of this Query."}:code==1? new String[]{"ICMP Node Information Query","The Data field contains a name which is the Subject of this Query, or is empty, as in the case of a NOOP."}:new String[]{"ICMP Node Information Query","The Data field contains an IPv4 address which is the Subject of this Query."};
+            case 140:
+                return code==0? new String[]{"ICMP Node Information Response","The Qtype of the Query is unknown to the Responder. The Reply Data field will be empty."}:code==1? new String[]{"ICMP Node Information Response","The Qtype of the Query is unknown to the Responder. The Reply Data field will be empty."}:new String[]{"ICMP Node Information Response","The Qtype of the Query is unknown to the Responder. The Reply Data field will be empty."};
+            case 141:
+                return new String[]{"Inverse Neighbor Discovery Solicitation Message",""};
+            case 142:
+                return new String[]{"Inverse Neighbor Discovery Advertisement Message",""};
+            case 143:
+                return new String[]{"Multicast Listener Discovery",""};
+            case 144:
+                return new String[]{"Home Agent Address Discovery Request Message",""};
+            case 145:
+                return new String[]{"Home Agent Address Discovery Reply Message",""};
+            case 146:
+                return new String[]{"Mobile Prefix Solicitation",""};
+            case 147:
+                return new String[]{"Mobile Prefix Advertisement",""};
+            case 148:
+                return new String[]{"Certification Path Solicitation",""};
+            case 149:
+                return new String[]{"Certification Path Advertisement",""};
+            case 151:
+                return new String[]{"Multicast Router Advertisement",""};
+            case 152:
+                return new String[]{"Multicast Router Solicitation",""};
+            case 153:
+                return new String[]{"Multicast Router Termination",""};
+            case 155:
+                return new String[]{"RPL Control Message",""};
+            case 200:
+                return new String[]{"Private experimentation",""};
+            case 201:
+                return new String[]{"Private experimentation",""};
+            case 255:
+                return new String[]{"Reserved for expansion of ICMPv6 informational messages",""};
+            default:
+                return new String[]{"Type not found",""};
+        }
+    }
+    
+    public static String filterDevice(String device) {
         int loc = device.lastIndexOf("}");
         return device = device.substring(0, loc+1);
     }
+    
+    public static String arrayConcater(String[] s, int index){
+        String res = "";
+        for(int i = index; i<s.length; i++)
+            res+= s[i]+" ";
+        return res;
+    };
     
 }

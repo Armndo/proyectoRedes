@@ -116,7 +116,37 @@ public class RawPacketHandler implements RawPacketListener {
                     }
                 }
             }
-            JOptionPane.showMessageDialog(null, str);
+            if(icmp instanceof ICMP) {
+                ICMP picmp = (ICMP)icmp;
+                str += "ICMP: " + picmp.getType() + ", Code: " + picmp.getCode() + ", Checksum: 0x" + picmp.getChecksum() + "\n\nData:\n";
+                if(picmp.getData().length() == 0)
+                    str += "N/A";
+                String aux[] = picmp.getData().split(" ");
+                for(int i = 0; i < aux.length; i++) {
+                    str += aux[i] + " ";
+                    if((i+1)%40 == 0) {
+                        str += "\n";
+                    }
+                }
+            }
+            if(icmp6 instanceof ICMP6) {
+                ICMP6 picmp6 = (ICMP6)icmp6;
+                str += "ICMP-IPv6: " + picmp6.getType_code()[0] + ", Checksum: 0x" + picmp6.getChecksum() + "\n\nMessage Body:\n";
+                if(picmp6.getMessagebody().length() == 0)
+                    str += "N/A";
+                String aux[] = picmp6.getMessagebody().split(" ");
+                for(int i = 0; i < aux.length; i++) {
+                    str += aux[i] + " ";
+                    if((i+1)%40 == 0) {
+                        str += "\n";
+                    }
+                }
+            }
+            //JOptionPane.showMessageDialog(null, str);
+            int sel = JOptionPane.showConfirmDialog(null, str + " \n\n¿Continuar capturando?", "Mensaje", 0);
+            if(sel != 0) {
+                System.exit(0);
+            }
         }
     }
 }

@@ -7,15 +7,7 @@ package sniffer;
 
 import net.sourceforge.jpcap.capture.PacketCapture;
 import net.sourceforge.jpcap.capture.PacketListener;
-import net.sourceforge.jpcap.capture.RawPacketListener;
-import net.sourceforge.jpcap.net.RawPacket;
 import net.sourceforge.jpcap.net.Packet;
-import net.sourceforge.jpcap.util.HexHelper;
-import protocols.Ethernet;
-import protocols.IPv4;
-import protocols.IPv6;
-import protocols.TCP;
-import protocols.UDP;
 import utils.Tool;
 
 /**
@@ -25,7 +17,7 @@ import utils.Tool;
 public class Capturer {
     
     private static final int INFINITE = -1;
-    private static final int PACKET_COUNT = INFINITE;
+    private static final int PACKET_COUNT = 50;
     private static String alv = "(ip or ip6) and (tcp or udp)";
     private static final String FILTER = "";
     private PacketCapture m_pcap;

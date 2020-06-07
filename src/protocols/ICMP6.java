@@ -22,6 +22,30 @@ public class ICMP6 {
         this.checksum = raw[56]+raw[57];
         this.messagebody = Tool.arrayConcater(raw, 58);
     }
+
+    public String[] getType_code() {
+        return type_code;
+    }
+
+    public void setType_code(String[] type_code) {
+        this.type_code = type_code;
+    }
+
+    public String getChecksum() {
+        return checksum;
+    }
+
+    public void setChecksum(String checksum) {
+        this.checksum = checksum;
+    }
+
+    public String getMessagebody() {
+        return messagebody;
+    }
+
+    public void setMessagebody(String messagebody) {
+        this.messagebody = messagebody;
+    }
     
     @Override
     public String toString(){

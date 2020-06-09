@@ -17,7 +17,7 @@ public class ICMP {
 
     public ICMP(String raw[]) {
         Tool tool = new Tool();
-        this.type = tool.icmpType(tool.hex2dec(raw[34]));
+        this.type = tool.icmpType(tool.hex2dec(raw[34])) + " (" + Tool.hex2dec(raw[34]) + ")";
         this.code = tool.hex2dec(raw[35]);
         this.checksum = raw[36] + raw[37];
         this.identifier = tool.hex2dec(new String[]{raw[38], raw[39]});

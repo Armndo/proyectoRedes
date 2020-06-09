@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import net.sourceforge.jpcap.capture.RawPacketListener;
 import net.sourceforge.jpcap.net.Packet;
@@ -150,7 +151,7 @@ public class RawPacketHandler implements RawPacketListener {
             DefaultTableModel model = (DefaultTableModel)gui.getTable().getModel();
             Vector v = new Vector();
             v.add((DataPacket)dp);
-            v.add(((long)(Double.parseDouble(data.getTimeval().toString().substring(0, data.getTimeval().toString().length()-1))*1000000)-init*1000)/1000000.0);
+            v.add(String.format("%.6f", ((long)(Double.parseDouble(data.getTimeval().toString().substring(0, data.getTimeval().toString().length()-1))*1000000)-init*1000)/1000000.0));
             String aux = "";
             aux = ip instanceof IPv4 ? ((IPv4)ip).getSource() : ip instanceof IPv6 ? ((IPv6)ip).getSource() : "ERROR";
             v.add(aux);
@@ -166,7 +167,7 @@ public class RawPacketHandler implements RawPacketListener {
             v.add(aux);
             model.addRow(v);
 //            try {
-//                Thread.sleep(100);
+//                Thread.sleep(10);
 //            } catch (InterruptedException ex) {
 //                Logger.getLogger(RawPacketHandler.class.getName()).log(Level.SEVERE, null, ex);
 //            }

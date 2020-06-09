@@ -1,5 +1,6 @@
 package protocols;
 
+import inet.ipaddr.IPAddressString;
 import utils.Tool;
 
 /**
@@ -26,8 +27,8 @@ public class IPv6 {
         this.length = tool.hex2dec(new String[]{raw[18], raw[19]});
         this.nextHeader = tool.protocolType(raw[20]);
         this.hopLimit = Integer.parseInt(raw[21], 16);
-        this.source = tool.ip6Converter(raw, 22);
-        this.destination = tool.ip6Converter(raw, 38);
+        this.source = new IPAddressString(tool.ip6Converter(raw, 22)).getAddress().toCanonicalString();
+        this.destination = new IPAddressString(tool.ip6Converter(raw, 38)).getAddress().toCanonicalString();
     }
 
     public int getVersion() {

@@ -12,6 +12,7 @@ import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import protocols.DataPacket;
@@ -50,24 +51,30 @@ public class GUI {
         window.setResizable(false);
         window.setLayout(null);
         
-        tittle.setFont(new Font("", Font.PLAIN, 36));
+        tittle.setFont(new Font("", 0, 36));
         tittle.setText("Sniffer");
         tittle.setHorizontalAlignment(SwingConstants.LEFT);
         tittle.setBounds(10 , 10, width, 36);
         
         scroll.setBounds(10, 46, 965, 200);
         table.setFont(new Font("Courier New", 0, 12));
-        table.setAutoCreateRowSorter(true);
+        table.setDefaultEditor(Object.class, null);
         TableColumnModel tcm = table.getColumnModel();
-        tcm.getColumn(0).setMaxWidth(40);
+        tcm.getColumn(0).setMaxWidth(35);
         tcm.getColumn(1).setPreferredWidth(10);
         tcm.getColumn(4).setPreferredWidth(10);
         tcm.getColumn(5).setPreferredWidth(10);
+        DefaultTableCellRenderer hed = (DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer();
+        hed.setHorizontalAlignment(JLabel.LEFT);
+        DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+        rightRenderer.setHorizontalAlignment(DefaultTableCellRenderer.RIGHT);   
+        table.getColumn("No.").setCellRenderer(rightRenderer);
+        table.getColumn("Length").setCellRenderer(rightRenderer);
         
         scroll2.setBounds(10, 256, width-35, 200);
         details.setLineWrap(true);
         details.setEditable(false);
-        details.setFont(new Font("Courier New", 0, 12));
+        details.setFont(new Font("Courier New", Font.PLAIN, 12));
         
         table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override

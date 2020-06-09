@@ -106,6 +106,16 @@ public class DataPacket {
                     + "Data:\n" + this.udp.getData()
                     + "";
         }
+        if(this.icmp != null) {
+            str += "Internet Control Message Protocol:\n"
+                    + "    Type: " + this.icmp.getType() + "\n"
+                    + "    Code: " + this.icmp.getCode() + "\n"
+                    + "    Checksum: 0x" + this.icmp.getChecksum() + "\n"
+                    + "    Identifier: 0x" + this.icmp.getIdentifier() + "\n"
+                    + "    Sequence Number: 0x" + this.icmp.getSequenceNumber() + "\n"
+                    + "Data:\n" + this.icmp.getData()
+                    + "";
+        }
         return str;
     }
 

@@ -15,7 +15,7 @@ public class IPv4 {
     private int length;
     private String identification;
     private String flags;
-    private String offset;
+    private int offset;
     private int TTL;
     private String protocol;
     private String checksum;
@@ -33,7 +33,7 @@ public class IPv4 {
         this.identification = raw[18] + raw[19];
         aux = tool.hex2bin(new String[]{raw[20], raw[21]}, 3);
         this.flags = aux[0];
-        this.offset = aux[1];
+        this.offset = Integer.parseInt(aux[1], 16);
         this.TTL = Integer.parseInt(raw[22], 16);
         this.protocol = tool.protocolType(raw[23]);
         this.checksum = raw[24] + raw[25];
@@ -97,11 +97,11 @@ public class IPv4 {
         this.flags = flags;
     }
 
-    public String getOffset() {
+    public int getOffset() {
         return offset;
     }
 
-    public void setOffset(String offset) {
+    public void setOffset(int offset) {
         this.offset = offset;
     }
 

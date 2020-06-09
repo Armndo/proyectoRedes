@@ -5,10 +5,19 @@
  */
 package sniffer;
 
+import gui.GUI;
+import java.util.ArrayList;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import net.sourceforge.jpcap.capture.RawPacketListener;
+import net.sourceforge.jpcap.net.Packet;
 import net.sourceforge.jpcap.net.RawPacket;
 import net.sourceforge.jpcap.util.HexHelper;
+import protocols.DataPacket;
 import protocols.Ethernet;
 import protocols.ICMP;
 import protocols.ICMP6;
@@ -24,11 +33,19 @@ import protocols.UDP;
 public class RawPacketHandler implements RawPacketListener {
     
     private static int m_counter = 0;
+    private GUI gui;
+    private ArrayList<Packet> arr;
+    private long init;
+    
+    public RawPacketHandler(GUI gui, ArrayList arr) {
+        this.gui = gui;
+        this.arr = arr;
+        init = System.currentTimeMillis();
+    }
     
     public void rawPacketArrived(RawPacket data) {
         m_counter++;
         String raw = HexHelper.toString(data.getData()).toUpperCase();
-        System.out.println(raw + "\n");
         String arr[] = raw.split(" ");
         Ethernet eth = new Ethernet(arr);
         Object ip = new Object();
@@ -37,38 +54,25 @@ public class RawPacketHandler implements RawPacketListener {
         Object icmp = new Object();
         Object icmp6 = new Object();
         String str = "";
-        System.out.println(eth);
-        //str += eth;
         if(eth.isValid()) {
             if(eth.getType().equals("IPv4")) {
                 ip = new IPv4(arr);
             } else if(eth.getType().equals("IPv6")) {
                 ip = new IPv6(arr);
             }
-            //str += ip;
         }
-        System.out.println(ip);
         if((ip instanceof IPv4 && ((IPv4)ip).getProtocol().equals("UDP")) || (ip instanceof IPv6 && ((IPv6)ip).getNextHeader().equals("UDP"))) {
             udp = new UDP(arr, ip);
-            System.out.println(udp);
-            //str += udp;
         }
         if(ip instanceof IPv4 && ((IPv4)ip).getProtocol().equals("TCP")) {
             tcp = new TCP(arr);
-            System.out.println(tcp);
-            //str += tcp;
         }
         if(ip instanceof IPv4 && ((IPv4)ip).getProtocol().equals("ICMP")) {
             icmp = new ICMP(arr);
-            System.out.println(icmp);
-            //str += icmp;
         }
         if(ip instanceof IPv6 && ((IPv6)ip).getNextHeader().equals("IPv6-ICMP")){
             icmp6 = new ICMP6(arr);
-            System.out.println(icmp6);
-            //str += icmp6;
         }
-        //JOptionPane pane = new JOptionPane(eth);
         if(eth.isValid()) {
             str += "Packet " + m_counter + "\n";
             str += data.getTimeval().getDate().toInstant() + "\n";
@@ -142,11 +146,30 @@ public class RawPacketHandler implements RawPacketListener {
                     }
                 }
             }
-            //JOptionPane.showMessageDialog(null, str);
-            int sel = JOptionPane.showConfirmDialog(null, str + " \n\n¿Continuar capturando?", "Mensaje", 0);
-            if(sel != 0) {
-                System.exit(0);
+            DataPacket dp = new DataPacket(data.getTimeval(), m_counter, raw, eth, ip, icmp, icmp6, tcp, udp);
+            DefaultTableModel model = (DefaultTableModel)gui.getTable().getModel();
+            Vector v = new Vector();
+            v.add((DataPacket)dp);
+            v.add(((long)(Double.parseDouble(data.getTimeval().toString().substring(0, data.getTimeval().toString().length()-1))*1000000)-init*1000)/1000000.0);
+            String aux = "";
+            aux = ip instanceof IPv4 ? ((IPv4)ip).getSource() : ip instanceof IPv6 ? ((IPv6)ip).getSource() : "ERROR";
+            v.add(aux);
+            aux = ip instanceof IPv4 ? ((IPv4)ip).getDestination(): ip instanceof IPv6 ? ((IPv6)ip).getDestination() : "ERROR";
+            v.add(aux);
+            aux = ip instanceof IPv4 ? ((IPv4)ip).getProtocol() : ip instanceof IPv6 ? ((IPv6)ip).getNextHeader() : "ERROR";
+            v.add(aux);
+            v.add(data.getData().length + " bytes");
+            aux = "";
+            if(udp instanceof UDP) {
+                aux = ((UDP) udp).getSource() + " → " + ((UDP) udp).getDestination() + " Len=" + ((UDP) udp).getLength();
             }
+            v.add(aux);
+            model.addRow(v);
+//            try {
+//                Thread.sleep(100);
+//            } catch (InterruptedException ex) {
+//                Logger.getLogger(RawPacketHandler.class.getName()).log(Level.SEVERE, null, ex);
+//            }
         }
     }
 }

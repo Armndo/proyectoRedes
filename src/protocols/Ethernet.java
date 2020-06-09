@@ -19,9 +19,8 @@ public class Ethernet {
     private boolean valid;
 
     public Ethernet(String raw[]) {
-        Tool tool = new Tool();
-        this.source = tool.macConverter(raw, 0);
-        this.destination = tool.macConverter(raw, 6);
+        this.source = Tool.macConverter(raw, 0);
+        this.destination = Tool.macConverter(raw, 6);
         this.type = raw[12] + raw[13];
         this.type = this.type.equals("0800") ? "IPv4" : this.type.equals("86DD") ? "IPv6" : null;
         this.valid = this.type != null;

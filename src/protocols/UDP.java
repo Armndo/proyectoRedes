@@ -22,9 +22,15 @@ public class UDP {
         this.length = Integer.parseInt(raw[38+offset] + raw[39+offset], 16);
         this.checksum = raw[40+offset] + raw[41+offset];
         this.data = "";
+        StringBuilder sb = new StringBuilder();
+        for(int i = 42+offset; i < raw.length; i++) {
+            this.data += Tool.printable((char)(Integer.parseInt(raw[i], 16)));
+        }
+        this.data += "\n";
         for(int i = 42+offset; i < raw.length; i++) {
             this.data += raw[i] + " ";
         }
+        System.out.println(this.data);
     }
 
     public int getSource() {

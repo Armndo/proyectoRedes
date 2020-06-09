@@ -11,6 +11,17 @@ package utils;
  */
 public class Tool {
     
+    public static char printable(char c) {
+        char ch = ' ';
+        for(int i = 32; i <= 127; i++) {
+            if(c == (char)i || c == (char)10) {
+                ch = c;
+                break ;
+            }
+        }
+        return ch;
+    }
+    
     public static int hex2dec(String hex) {
         return Integer.parseInt(hex, 16);
     }

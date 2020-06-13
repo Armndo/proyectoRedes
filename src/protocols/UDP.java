@@ -14,18 +14,17 @@ public class UDP {
     private String checksum;
     private String data;
 
-    public UDP(String raw[], Object ip) {
-        int offset = ip instanceof IPv4 ? 0 : ip instanceof IPv6 ? 20 : 0;
-        Tool tool = new Tool();
-        this.source = tool.hex2dec(raw[34+offset] + raw[35+offset]);
-        this.destination = tool.hex2dec(raw[36+offset] + raw[37+offset]);
+    public UDP(String raw[]) {
+        String aux = raw[12] + raw[13];
+        int offset = aux.equals("0800") ? 0 : aux.equals("86DD") ? 20 : 0;
+        this.source = Tool.hex2dec(raw[34+offset] + raw[35+offset]);
+        this.destination = Tool.hex2dec(raw[36+offset] + raw[37+offset]);
         this.length = Integer.parseInt(raw[38+offset] + raw[39+offset], 16);
         this.checksum = raw[40+offset] + raw[41+offset];
         this.data = "";
-        for(int i = 42+offset; i < raw.length; i++) {
-            this.data += raw[i] + " ";
-        }
-        this.data += "\n";
+//        for(int i = 42+offset; i < raw.length; i++) {
+//            this.data += raw[i] + " ";
+//        }
         for(int i = 42+offset; i < raw.length; i++) {
             this.data += (char)(Integer.parseInt(raw[i], 16));
         }

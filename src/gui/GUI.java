@@ -60,14 +60,19 @@ public class GUI {
         table.setFont(new Font("Courier New", 0, 12));
         table.setDefaultEditor(Object.class, null);
         TableColumnModel tcm = table.getColumnModel();
-        tcm.getColumn(0).setMaxWidth(35);
-        tcm.getColumn(1).setPreferredWidth(10);
-        tcm.getColumn(4).setPreferredWidth(10);
-        tcm.getColumn(5).setPreferredWidth(10);
+        tcm.getColumn(0).setMaxWidth(50);
+        tcm.getColumn(1).setPreferredWidth(20);
+        tcm.getColumn(2).setPreferredWidth(100);
+        tcm.getColumn(3).setPreferredWidth(100);
+        tcm.getColumn(4).setPreferredWidth(20);
+        tcm.getColumn(5).setPreferredWidth(20);
+        tcm.getColumn(6).setPreferredWidth(250);
         DefaultTableCellRenderer hed = (DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer();
         hed.setHorizontalAlignment(JLabel.LEFT);
         DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
         rightRenderer.setHorizontalAlignment(DefaultTableCellRenderer.RIGHT);   
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);   
         table.getColumn("No.").setCellRenderer(rightRenderer);
         table.getColumn("Length").setCellRenderer(rightRenderer);
         

@@ -3,8 +3,18 @@ package gui;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -15,7 +25,11 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import net.sourceforge.jpcap.capture.CaptureDeviceLookupException;
+import net.sourceforge.jpcap.capture.PacketCapture;
 import protocols.DataPacket;
+import sniffer.Capturer;
+import utils.Tool;
 
 /**
  *
@@ -33,8 +47,8 @@ public class GUI {
     private final int height;
 
     public GUI() {
-        width = 1000;
-        height = 900;
+        width = 1225;
+        height = 700;
         
         window = new JFrame();
         tittle = new JLabel();
@@ -53,10 +67,10 @@ public class GUI {
         
         tittle.setFont(new Font("", 0, 36));
         tittle.setText("Sniffer");
-        tittle.setHorizontalAlignment(SwingConstants.LEFT);
-        tittle.setBounds(10 , 10, width, 36);
+        tittle.setHorizontalAlignment(SwingConstants.CENTER);
+        tittle.setBounds(10 , 10, 1200, 36);
         
-        scroll.setBounds(10, 46, 965, 200);
+        scroll.setBounds(10, 52, 1200, 200);
         table.setFont(new Font("Courier New", 0, 12));
         table.setDefaultEditor(Object.class, null);
         TableColumnModel tcm = table.getColumnModel();
@@ -76,7 +90,7 @@ public class GUI {
         table.getColumn("No.").setCellRenderer(rightRenderer);
         table.getColumn("Length").setCellRenderer(rightRenderer);
         
-        scroll2.setBounds(10, 256, width-35, 200);
+        scroll2.setBounds(10, 262, 1200, 400);
         details.setLineWrap(true);
         details.setEditable(false);
         details.setFont(new Font("Courier New", Font.PLAIN, 12));

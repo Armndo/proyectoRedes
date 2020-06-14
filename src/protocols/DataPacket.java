@@ -59,7 +59,7 @@ public class DataPacket {
     
     public String getDetails() {
         String str = "";
-        str += this.raw + "\n";
+        //str += this.raw + "\n";
         str += ""
                 + "Ethernet II:\n"
                 + "    Destination: " + this.ethernet.getDestination() + "\n"

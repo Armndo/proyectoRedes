@@ -16,7 +16,7 @@ import net.sourceforge.jpcap.util.HexHelper;
  *  Grupo: 2CV6
  *  Integrantes:
  *  Cortés Larios Eddieson
- *  González Gonzáles Armando
+ *  González González Armando
  * 
  */
 public class PacketHandler implements PacketListener  {

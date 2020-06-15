@@ -10,7 +10,7 @@ import utils.Tool;
  *  Grupo: 2CV6
  *  Integrantes:
  *  Cortés Larios Eddieson
- *  González Gonzáles Armando
+ *  González González Armando
  * 
  */
 public class ICMP6 {

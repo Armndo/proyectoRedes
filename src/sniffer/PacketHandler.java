@@ -12,8 +12,12 @@ import net.sourceforge.jpcap.net.Packet;
 import net.sourceforge.jpcap.util.HexHelper;
 
 /**
- *
- * @author Armando
+ *  Proyecto Redes: Sniffer
+ *  Grupo: 2CV6
+ *  Integrantes:
+ *  Cortés Larios Eddieson
+ *  González Gonzáles Armando
+ * 
  */
 public class PacketHandler implements PacketListener  {
     

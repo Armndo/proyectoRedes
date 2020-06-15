@@ -5,10 +5,13 @@
  */
 package protocols;
 import utils.Tool;
-
 /**
- *
- * @author Eddieson Cortes
+ *  Proyecto Redes: Sniffer
+ *  Grupo: 2CV6
+ *  Integrantes:
+ *  Cortés Larios Eddieson
+ *  González Gonzáles Armando
+ * 
  */
 public class ICMP6 {
     private String[] type_code = new String[2];

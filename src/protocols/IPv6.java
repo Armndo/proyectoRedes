@@ -4,8 +4,12 @@ import inet.ipaddr.IPAddressString;
 import utils.Tool;
 
 /**
- *
- * @author Armando
+ *  Proyecto Redes: Sniffer
+ *  Grupo: 2CV6
+ *  Integrantes:
+ *  Cortés Larios Eddieson
+ *  González Gonzáles Armando
+ * 
  */
 public class IPv6 {
     

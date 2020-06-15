@@ -20,8 +20,12 @@ import javax.swing.JTextField;
 import net.sourceforge.jpcap.capture.PacketCapture;
 import utils.Tool;
 /**
- *
- * @author Eddieson Cortes
+ *  Proyecto Redes: Sniffer
+ *  Grupo: 2CV6
+ *  Integrantes:
+ *  Cortés Larios Eddieson
+ *  González Gonzáles Armando
+ * 
  */
 public class Selector {
     private JLabel texto;

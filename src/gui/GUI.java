@@ -18,8 +18,12 @@ import javax.swing.table.TableColumnModel;
 import protocols.DataPacket;
 
 /**
- *
- * @author Armando
+ *  Proyecto Redes: Sniffer
+ *  Grupo: 2CV6
+ *  Integrantes:
+ *  Cortés Larios Eddieson
+ *  González Gonzáles Armando
+ * 
  */
 public class GUI {
     

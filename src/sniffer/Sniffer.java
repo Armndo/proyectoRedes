@@ -19,8 +19,12 @@ import javax.swing.table.DefaultTableModel;
 import protocols.DataPacket;
 
 /**
- *
- * @author Armando
+ *  Proyecto Redes: Sniffer
+ *  Grupo: 2CV6
+ *  Integrantes:
+ *  Cortés Larios Eddieson
+ *  González Gonzáles Armando
+ * 
  */
 public class Sniffer {
 
@@ -28,11 +32,6 @@ public class Sniffer {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws Exception {
-//        for(int i = 0; i < 256; i++) {
-//            System.out.println("i: " + i + " => " + (char)i);
-//        }
-//        System.out.println(((char)Integer.parseInt("89", 16)));
-            
         Selector s = new Selector();
         while(!s.getStatus()){
             
@@ -44,9 +43,6 @@ public class Sniffer {
         } catch (Exception ex) {
             Logger.getLogger(Sniffer.class.getName()).log(Level.SEVERE, null, ex);
         }
-//        for(int i = 0; i < lmao.getTable().getRowCount(); i++) {
-//            System.out.println(((DataPacket)((DefaultTableModel)lmao.getTable().getModel()).getValueAt(i, 0)).getEthernet());
-//        }
     }
     
 }

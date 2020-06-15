@@ -1,11 +1,14 @@
 package protocols;
 
+import net.sourceforge.jpcap.util.Timeval;
+
 /**
  *
  * @author Armando
  */
 public class DataPacket {
     
+    private Timeval time;
     private int id;
     private String raw;
     private Ethernet ethernet;
@@ -16,17 +19,17 @@ public class DataPacket {
     private TCP tcp;
     private UDP udp;
 
-    public DataPacket(int id, String raw) {
+    public DataPacket(Timeval time, int id, String raw, Ethernet ethernet, Object ip, Object icmp, Object icmp6, Object tcp, Object udp) {
+        this.time = time;
         this.id = id;
         this.raw = raw;
-        String arr[] = this.raw.split(" ");
-        this.ethernet = new Ethernet(arr);
-        this.ipv4 = ethernet.getType() != null && ethernet.getType().equals("IPv4") ? new IPv4(arr) : null;
-        this.ipv6 = ethernet.getType() != null && ethernet.getType().equals("IPv6") ? new IPv6(arr) : null;
-        this.icmp = ipv4 != null && ipv4.getProtocol().equals("ICMP") ? new ICMP(arr) : null;
-        this.icmp6 = ipv6 != null && ipv6.getNextHeader().equals("IPv6-ICMP") ? new ICMP6(arr) : null;
-        this.tcp = ipv4 != null && ipv4.getProtocol().equals("TCP") ? new TCP(arr) : null;
-        this.udp = (ipv4 != null && ipv4.getProtocol().equals("UDP")) || (ipv6 != null && ipv6.getNextHeader().equals("UDP")) ? new UDP(arr) : null;
+        this.ethernet = ethernet;
+        this.ipv4 = ip instanceof IPv4 ? (IPv4)ip : null;
+        this.ipv6 = ip instanceof IPv6 ? (IPv6)ip : null;
+        this.icmp = icmp instanceof ICMP ? (ICMP)icmp : null;
+        this.icmp6 = icmp6 instanceof ICMP6 ? (ICMP6)icmp6 : null;
+        this.tcp = tcp instanceof TCP ? (TCP)tcp : null;
+        this.udp = udp instanceof UDP ? (UDP)udp : null;
     }
 
     public Ethernet getEthernet() {
@@ -59,7 +62,7 @@ public class DataPacket {
     
     public String getDetails() {
         String str = "";
-        //str += this.raw + "\n";
+        
         str += ""
                 + "Ethernet II:\n"
                 + "    Destination: " + this.ethernet.getDestination() + "\n"
@@ -99,25 +102,8 @@ public class DataPacket {
                     + "    Source Port: " + this.udp.getSource() + "\n"
                     + "    Destination Port: " + this.udp.getDestination() + "\n"
                     + "    Length: " + this.udp.getLength() + " bytes\n"
-                    + "    Checksum: 0x" + this.udp.getChecksum()
-                    + (this.udp.getData().length() > 0 ? "\nData:\n" + this.udp.getData() : "")
-                    + "";
-        }
-        if(this.tcp != null) {
-            str += "Transmission Control Protocol:\n"
-                    + "    Source Port: " + this.tcp.getSource() + "\n"
-                    + "    Destination Port: " + this.tcp.getDestination() + "\n"
-                    + "    Length: " + this.tcp.getLength() + " bytes\n"
-                    + "    SEQ: 0x" + this.tcp.getSEQ() + "\n"
-                    + "    ACK: 0x" + this.tcp.getACK() + "\n"
-                    + "    Header Length: " + this.tcp.getHeaderLength() + " bytes\n"
-                    + "    Reserved: " + this.tcp.getReserved() + "\n"
-                    + "    Flags: " + this.tcp.getFlags() + "\n"
-                    + "    Window Size: " + this.tcp.getSize() + " bytes\n"
-                    + "    Checksum: 0x" + this.tcp.getChecksum() + "\n"
-                    + "    Urgent pointer: " + this.tcp.getUrgent()
-                    + (this.tcp.getOptions().length() > 0 ? "\nOptions:\n" + this.tcp.getOptions() : "")
-                    + (this.tcp.getData().length() > 0 ? "\nData:\n" + this.tcp.getData() : "")
+                    + "    Checksum: 0x" + this.udp.getChecksum() + "\n"
+                    + "Data:\n" + this.udp.getData()
                     + "";
         }
         if(this.icmp != null) {
@@ -126,16 +112,8 @@ public class DataPacket {
                     + "    Code: " + this.icmp.getCode() + "\n"
                     + "    Checksum: 0x" + this.icmp.getChecksum() + "\n"
                     + "    Identifier: 0x" + this.icmp.getIdentifier() + "\n"
-                    + "    Sequence Number: 0x" + this.icmp.getSequenceNumber()
-                    + (this.icmp.getData().length() > 0 ? "\nData:\n" + this.icmp.getData() : "")
-                    + "";
-        }
-        if(this.icmp6 != null) {
-            str += "Internet Control Message Protocol v6:\n"
-                    + "    Type: " + this.icmp6.getType_code()[0] + "\n"
-                    + "    Code: " + this.icmp6.getType_code()[1] + "\n"
-                    + "    Checksum: 0x" + this.icmp6.getChecksum() + "\n"
-                    + "Data:\n" + this.icmp6.getMessagebody()
+                    + "    Sequence Number: 0x" + this.icmp.getSequenceNumber() + "\n"
+                    + "Data:\n" + this.icmp.getData()
                     + "";
         }
         return str;

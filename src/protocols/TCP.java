@@ -15,7 +15,6 @@ public class TCP {
     
     private int source;
     private int destination;
-    private int length;
     private String SEQ;
     private String ACK;
     private int headerLength;
@@ -24,32 +23,24 @@ public class TCP {
     private int size;
     private String checksum;
     private int urgent;
-    private String options;
     private String data;
 
     public TCP(String raw[]) {
-        this.source = Tool.hex2dec(new String[]{raw[34], raw[35]});
-        this.destination = Tool.hex2dec(new String[]{raw[36], raw[37]});
+        Tool tool = new Tool();
+        this.source = tool.hex2dec(new String[]{raw[34], raw[35]});
+        this.destination = tool.hex2dec(new String[]{raw[36], raw[37]});
         this.SEQ = raw[38] + raw[39] + raw[40] + raw[41];
         this.ACK = raw[42] + raw[43] + raw[44] + raw[45];
-        this.headerLength = Tool.hex2dec(raw[46].substring(0, 1))*4;
-        String aux[] = Tool.hex2bin(raw[46].substring(1, 2), 3);
+        this.headerLength = tool.hex2dec(raw[46].substring(0, 1))*4;
+        String aux[] = tool.hex2bin(raw[46].substring(1, 2), 3);
         this.reserved = aux[0];
-        this.flags = aux[1] + Tool.hex2bin(raw[47]);
-        this.size = Tool.hex2dec(new String[]{raw[48], raw[49]});
+        this.flags = aux[1] + tool.hex2bin(raw[47]);
+        this.size = tool.hex2dec(new String[]{raw[48], raw[49]});
         this.checksum = raw[50] + raw[51];
-        this.urgent = Tool.hex2dec(new String[]{raw[52], raw[53]});
-        this.options = "";
-        int offset = this.headerLength - 20;
-        if(this.headerLength > 20) {
-            for(int i = 54; i < 54+offset; i++) {
-                this.options += raw[i] + " ";
-            }
-        }
+        this.urgent = tool.hex2dec(new String[]{raw[52], raw[53]});
         this.data = "";
-        for(int i = 54+offset; i < raw.length; i++) {
+        for(int i = 54; i < raw.length; i++) {
             this.data += raw[i] + " ";
-            this.length = i-54+offset+1;
         }
     }
 
@@ -67,14 +58,6 @@ public class TCP {
 
     public void setDestination(int destination) {
         this.destination = destination;
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public void setLength(int length) {
-        this.length = length;
     }
 
     public String getSEQ() {
@@ -141,14 +124,6 @@ public class TCP {
         this.urgent = urgent;
     }
 
-    public String getOptions() {
-        return options;
-    }
-
-    public void setOptions(String options) {
-        this.options = options;
-    }
-
     public String getData() {
         return data;
     }
@@ -163,7 +138,6 @@ public class TCP {
             + "TCP {\n"
                 + "\tsource: " + this.source + "\n"
                 + "\tdestination: " + this.destination + "\n"
-                + "\tlength: " + this.length + "\n"
                 + "\tSEQ: " + this.SEQ + "\n"
                 + "\tACK: " + this.ACK + "\n"
                 + "\theaderLength: " + this.headerLength + "\n"
@@ -172,7 +146,6 @@ public class TCP {
                 + "\tsize: " + this.size + "\n"
                 + "\tchecksum: " + this.checksum + "\n"
                 + "\turgent: " + this.urgent + "\n"
-                + "\toptions: " + (this.options.length() > 0 ? this.options : "N/A") + "\n"
                 + "\tdata: " + this.data + "\n"
             + "}\n";
     }

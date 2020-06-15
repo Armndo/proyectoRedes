@@ -11,7 +11,7 @@ import utils.Tool;
  * @author Eddieson Cortes
  */
 public class ICMP6 {
-    private String[] type_code;
+    private String[] type_code = new String[2];
     //0: type
     //1: code
     private String checksum;
@@ -19,10 +19,9 @@ public class ICMP6 {
     
     public ICMP6(String[] raw){
         this.type_code = Tool.ICMP6Type(Tool.hex2dec(raw[54]),Tool.hex2dec(raw[55]));
-        this.type_code[1] = this.type_code[1].equals("") ? "N/A" : this.type_code[1];
         this.checksum = raw[56]+raw[57];
         this.messagebody = Tool.arrayConcater(raw, 58);
-    }   
+    }
 
     public String[] getType_code() {
         return type_code;

@@ -1,17 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package utils;
 
 /**
+ * 
  *  Proyecto Redes: Sniffer
  *  Grupo: 2CV6
  *  Integrantes:
  *  Cortés Larios Eddieson
  *  González González Armando
- * 
  */
 public class Tool {
     

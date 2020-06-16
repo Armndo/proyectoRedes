@@ -1,13 +1,14 @@
 package protocols;
 
 import utils.Tool;
+
 /**
+ * 
  *  Proyecto Redes: Sniffer
  *  Grupo: 2CV6
  *  Integrantes:
  *  Cortés Larios Eddieson
  *  González González Armando
- * 
  */
 public class IPv4 {
     
@@ -26,22 +27,21 @@ public class IPv4 {
     private String destination;
 
     public IPv4(String raw[]) {
-        Tool tool = new Tool();
         this.version = Integer.parseInt(raw[14].substring(0, 1), 16);
         this.IHL = Integer.parseInt(raw[14].substring(1, 2))*4;
-        String aux[] = tool.hex2bin(raw[16], 6);
+        String aux[] = Tool.hex2bin(raw[16], 6);
         this.DSCP = aux[0];
         this.ECN = aux[1];
-        this.length = tool.hex2dec(new String[]{raw[16], raw[17]});
+        this.length = Tool.hex2dec(new String[]{raw[16], raw[17]});
         this.identification = raw[18] + raw[19];
-        aux = tool.hex2bin(new String[]{raw[20], raw[21]}, 3);
+        aux = Tool.hex2bin(new String[]{raw[20], raw[21]}, 3);
         this.flags = aux[0];
         this.offset = Integer.parseInt(aux[1], 16);
         this.TTL = Integer.parseInt(raw[22], 16);
-        this.protocol = tool.protocolType(raw[23]);
+        this.protocol = Tool.protocolType(raw[23]);
         this.checksum = raw[24] + raw[25];
-        this.source = tool.ipConverter(raw, 26);
-        this.destination = tool.ipConverter(raw, 30);
+        this.source = Tool.ipConverter(raw, 26);
+        this.destination = Tool.ipConverter(raw, 30);
     }
 
     public int getVersion() {

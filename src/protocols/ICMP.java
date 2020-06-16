@@ -1,13 +1,14 @@
 package protocols;
 
 import utils.Tool;
+
 /**
+ * 
  *  Proyecto Redes: Sniffer
  *  Grupo: 2CV6
  *  Integrantes:
  *  Cortés Larios Eddieson
  *  González González Armando
- * 
  */
 public class ICMP {
     
@@ -19,12 +20,11 @@ public class ICMP {
     private String data;
 
     public ICMP(String raw[]) {
-        Tool tool = new Tool();
-        this.type = tool.icmpType(tool.hex2dec(raw[34])) + " (" + Tool.hex2dec(raw[34]) + ")";
-        this.code = tool.hex2dec(raw[35]);
+        this.type = Tool.icmpType(Tool.hex2dec(raw[34])) + " (" + Tool.hex2dec(raw[34]) + ")";
+        this.code = Tool.hex2dec(raw[35]);
         this.checksum = raw[36] + raw[37];
-        this.identifier = tool.hex2dec(new String[]{raw[38], raw[39]});
-        this.sequenceNumber = tool.hex2dec(new String[]{raw[40], raw[41]});
+        this.identifier = Tool.hex2dec(new String[]{raw[38], raw[39]});
+        this.sequenceNumber = Tool.hex2dec(new String[]{raw[40], raw[41]});
         this.data = "";
         for(int i = 42; i < raw.length; i++) {
             this.data += raw[i] + " ";

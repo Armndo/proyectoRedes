@@ -4,12 +4,12 @@ import inet.ipaddr.IPAddressString;
 import utils.Tool;
 
 /**
+ * 
  *  Proyecto Redes: Sniffer
  *  Grupo: 2CV6
  *  Integrantes:
  *  Cortés Larios Eddieson
  *  González González Armando
- * 
  */
 public class IPv6 {
     
@@ -23,16 +23,15 @@ public class IPv6 {
     private String destination;
 
     public IPv6(String raw[]) {
-        Tool tool = new Tool();
         this.version = Integer.parseInt(raw[14].substring(0, 1), 16);
-        String aux[] = tool.hex2bin(new String[]{raw[14].substring(1, 2), raw[15], raw[16], raw[17]}, 8);
+        String aux[] = Tool.hex2bin(new String[]{raw[14].substring(1, 2), raw[15], raw[16], raw[17]}, 8);
         this.trafficClass = aux[0];
         this.flowLabel = aux[1];
-        this.length = tool.hex2dec(new String[]{raw[18], raw[19]});
-        this.nextHeader = tool.protocolType(raw[20]);
+        this.length = Tool.hex2dec(new String[]{raw[18], raw[19]});
+        this.nextHeader = Tool.protocolType(raw[20]);
         this.hopLimit = Integer.parseInt(raw[21], 16);
-        this.source = new IPAddressString(tool.ip6Converter(raw, 22)).getAddress().toCanonicalString();
-        this.destination = new IPAddressString(tool.ip6Converter(raw, 38)).getAddress().toCanonicalString();
+        this.source = new IPAddressString(Tool.ip6Converter(raw, 22)).getAddress().toCanonicalString();
+        this.destination = new IPAddressString(Tool.ip6Converter(raw, 38)).getAddress().toCanonicalString();
     }
 
     public int getVersion() {
